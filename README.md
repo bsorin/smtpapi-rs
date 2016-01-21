@@ -144,7 +144,7 @@ header.set_ip_pool("newsletter_pool");
 use smtpapi::{Header};
 
 let mut header = Header::new();
-header.to_string() //returns a JSON string representation of the headers
+header.to_json_string();
 ```
 
 ## Contributing
