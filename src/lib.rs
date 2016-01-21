@@ -148,8 +148,6 @@ impl ToJson for Header {
             d.insert("asm_group_id".to_string(), x.to_json());
         }
 
-
-
         if let Some(ref x) = self.send_at {
             d.insert("send_at".to_string(), x.to_json());
         }
@@ -174,10 +172,7 @@ impl fmt::Display for Header {
         // stream: `f`. Returns `fmt::Result` which indicates whether the
         // operation succeeded or failed. Note that `write!` uses syntax which
         // is very similar to `println!`.
-        write!(f, "b\"{}\"", self.to_string())
-        // let x = self.to_string();
-        // let y = self.escape_bytestring(x.as_bytes().as_ref())
-        // write!(f, "b\"{}\"", y);
+        write!(f, "{:?}", self.to_string())
     }
 }
 
@@ -190,7 +185,7 @@ impl Header {
     /// use smtpapi::{Header};
     ///
     /// let header = Header::new();
-    /// println!("{}", header.to_string());
+    /// println!("{}", header.to_json_string());
     /// ```
     pub fn new() -> Header {
         Header { to: Vec::new(),
@@ -214,9 +209,9 @@ impl Header {
     /// use smtpapi::{Header};
     ///
     /// let header = Header::new();
-    /// println!("{}", header.to_string());
+    /// println!("{}", header.to_json_string());
     /// ```
-    pub fn to_string(&self) -> String {
+    pub fn to_json_string(&self) -> String {
         return self.to_json().to_string();
     }
 
@@ -606,14 +601,14 @@ mod tests {
     fn to_string() {
         let header = Header::new();
 
-        assert_eq!("{}", header.to_string());
+        assert_eq!("{}", header.to_json_string());
     }
 
     #[test]
     fn header_to_empty_json_string() {
         let header = Header::new();
 
-        assert_eq!("{}", header.to_string());
+        assert_eq!("{}", header.to_json_string());
     }
 
     #[test]
@@ -625,17 +620,17 @@ mod tests {
         header.add_to("foo1@domain.com");
 
         assert_eq!(header.to.len(), 1);
-        assert_eq!("{\"to\":[\"foo1@domain.com\"]}", header.to_string());
+        assert_eq!("{\"to\":[\"foo1@domain.com\"]}", header.to_json_string());
 
         header.add_to("foo2@domain.com")
               .add_tos(emails);
 
         assert_eq!(header.to.len(), 4);
-        assert_eq!("{\"to\":[\"foo1@domain.com\",\"foo2@domain.com\",\"bar1@domain.com\",\"bar2@domain.com\"]}", header.to_string());
+        assert_eq!("{\"to\":[\"foo1@domain.com\",\"foo2@domain.com\",\"bar1@domain.com\",\"bar2@domain.com\"]}", header.to_json_string());
 
         header.set_tos(emails2);
         assert_eq!(header.to.len(), 2);
-        assert_eq!("{\"to\":[\"foo1@domain.com\",\"foo2@domain.com\"]}", header.to_string());
+        assert_eq!("{\"to\":[\"foo1@domain.com\",\"foo2@domain.com\"]}", header.to_json_string());
     }
 
     #[test]
@@ -650,19 +645,19 @@ mod tests {
         header.add_substitution("-top-", "foobar1");
 
         assert_eq!(true, header.sub.contains_key("-top-"));
-        assert_eq!("{\"sub\":{\"-top-\":[\"foobar1\"]}}", header.to_string());
+        assert_eq!("{\"sub\":{\"-top-\":[\"foobar1\"]}}", header.to_json_string());
 
         header.add_substitution("-top-", "foobar2");
-        assert_eq!("{\"sub\":{\"-top-\":[\"foobar1\",\"foobar2\"]}}", header.to_string());
+        assert_eq!("{\"sub\":{\"-top-\":[\"foobar1\",\"foobar2\"]}}", header.to_json_string());
 
         header.add_substitutions("-ztags-", tags);
         assert_eq!(true, header.sub.contains_key("-ztags-"));
-        assert_eq!("{\"sub\":{\"-top-\":[\"foobar1\",\"foobar2\"],\"-ztags-\":[\"rust\",\"power\"]}}", header.to_string());
+        assert_eq!("{\"sub\":{\"-top-\":[\"foobar1\",\"foobar2\"],\"-ztags-\":[\"rust\",\"power\"]}}", header.to_json_string());
 
         header.set_substitutions(all_subs);
         assert_eq!(true, header.sub.contains_key("-item1-"));
         assert_eq!(true, header.sub.contains_key("-item2-"));
-        assert_eq!("{\"sub\":{\"-item1-\":[\"rust\",\"power\"],\"-item2-\":[\"rust\",\"power\"]}}", header.to_string());
+        assert_eq!("{\"sub\":{\"-item1-\":[\"rust\",\"power\"],\"-item2-\":[\"rust\",\"power\"]}}", header.to_json_string());
 
     }
 
@@ -676,15 +671,15 @@ mod tests {
         header.add_section("-top1-", "foobar1");
 
         assert_eq!(true, header.section.contains_key("-top1-"));
-        assert_eq!("{\"section\":{\"-top1-\":\"foobar1\"}}", header.to_string());
+        assert_eq!("{\"section\":{\"-top1-\":\"foobar1\"}}", header.to_json_string());
 
         header.add_section("-top1-", "foobar2");
-        assert_eq!("{\"section\":{\"-top1-\":\"foobar2\"}}", header.to_string());
+        assert_eq!("{\"section\":{\"-top1-\":\"foobar2\"}}", header.to_json_string());
 
         header.set_sections(sections);
         assert_eq!(true, header.section.contains_key("-item1-"));
         assert_eq!(true, header.section.contains_key("-item2-"));
-        assert_eq!("{\"section\":{\"-item1-\":\"value1\",\"-item2-\":\"value2\"}}", header.to_string());
+        assert_eq!("{\"section\":{\"-item1-\":\"value1\",\"-item2-\":\"value2\"}}", header.to_json_string());
     }
 
     #[test]
@@ -697,15 +692,15 @@ mod tests {
         header.add_unique_arg("-arg1-", "foobar1");
 
         assert_eq!(true, header.unique_args.contains_key("-arg1-"));
-        assert_eq!("{\"unique_args\":{\"-arg1-\":\"foobar1\"}}", header.to_string());
+        assert_eq!("{\"unique_args\":{\"-arg1-\":\"foobar1\"}}", header.to_json_string());
 
         header.add_unique_arg("-arg1-", "foobar2");
-        assert_eq!("{\"unique_args\":{\"-arg1-\":\"foobar2\"}}", header.to_string());
+        assert_eq!("{\"unique_args\":{\"-arg1-\":\"foobar2\"}}", header.to_json_string());
 
         header.set_unique_args(unique_args);
         assert_eq!(true, header.unique_args.contains_key("-arg1-"));
         assert_eq!(true, header.unique_args.contains_key("-arg2-"));
-        assert_eq!("{\"unique_args\":{\"-arg1-\":\"value1\",\"-arg2-\":\"value2\"}}", header.to_string());
+        assert_eq!("{\"unique_args\":{\"-arg1-\":\"value1\",\"-arg2-\":\"value2\"}}", header.to_json_string());
     }
 
     #[test]
@@ -738,7 +733,7 @@ mod tests {
         header.set_filter("clicktrack", filter);
 
         assert_eq!(true, header.filters.contains_key("clicktrack"));
-        assert_eq!("{\"filters\":{\"clicktrack\":{\"settings\":{\"enabled\":\"1\"}}}}", header.to_string());
+        assert_eq!("{\"filters\":{\"clicktrack\":{\"settings\":{\"enabled\":\"1\"}}}}", header.to_json_string());
     }
 
     #[test]
@@ -748,7 +743,7 @@ mod tests {
         header.add_category("天破活殺");
         header.add_category("天破活殺");
 
-        assert_eq!("{\"category\":[\"\u{5929}\u{7834}\u{6d3b}\u{6bba}\",\"\u{5929}\u{7834}\u{6d3b}\u{6bba}\"]}", header.to_string());
+        assert_eq!("{\"category\":[\"\u{5929}\u{7834}\u{6d3b}\u{6bba}\",\"\u{5929}\u{7834}\u{6d3b}\u{6bba}\"]}", header.to_json_string());
     }
 
     #[test]
@@ -756,17 +751,17 @@ mod tests {
         let mut header = Header::new();
 
         header.add_category("category_1");
-        assert_eq!("{\"category\":[\"category_1\"]}", header.to_string());
+        assert_eq!("{\"category\":[\"category_1\"]}", header.to_json_string());
 
         header.add_category("category_2")
               .add_category("category_3");
-        assert_eq!("{\"category\":[\"category_1\",\"category_2\",\"category_3\"]}", header.to_string());
+        assert_eq!("{\"category\":[\"category_1\",\"category_2\",\"category_3\"]}", header.to_json_string());
 
         header.add_categories(vec!["abc", "def"]);
-        assert_eq!("{\"category\":[\"category_1\",\"category_2\",\"category_3\",\"abc\",\"def\"]}", header.to_string());
+        assert_eq!("{\"category\":[\"category_1\",\"category_2\",\"category_3\",\"abc\",\"def\"]}", header.to_json_string());
 
         header.set_categories(vec!["abc", "def"]);
-        assert_eq!("{\"category\":[\"abc\",\"def\"]}", header.to_string());
+        assert_eq!("{\"category\":[\"abc\",\"def\"]}", header.to_json_string());
     }
 
     #[test]
@@ -774,7 +769,7 @@ mod tests {
         let mut header = Header::new();
         header.set_ip_pool("pool_1");
 
-        assert_eq!("{\"ip_pool\":\"pool_1\"}", header.to_string());
+        assert_eq!("{\"ip_pool\":\"pool_1\"}", header.to_json_string());
     }
 
     #[test]
@@ -782,10 +777,10 @@ mod tests {
         let mut header = Header::new();
 
         header.set_asm_group_id(12);
-        assert_eq!("{\"asm_group_id\":12}", header.to_string());
+        assert_eq!("{\"asm_group_id\":12}", header.to_json_string());
 
         header.set_asm_group_id(123);
-        assert_eq!("{\"asm_group_id\":123}", header.to_string());
+        assert_eq!("{\"asm_group_id\":123}", header.to_json_string());
     }
 
     #[test]
@@ -805,7 +800,7 @@ mod tests {
         s.push_str(&format!("{:?}", x));
         s.push_str("}");
 
-        assert_eq!(s, header.to_string());
+        assert_eq!(s, header.to_json_string());
         assert_eq!(header.send_each_at.is_none(), true);
     }
 
@@ -832,7 +827,7 @@ mod tests {
         s.push_str(&format!("{:?}", z));
         s.push_str("]}");
 
-        assert_eq!(s, header.to_string());
+        assert_eq!(s, header.to_json_string());
         assert_eq!(header.send_at.is_none(), true);
     }
 }
