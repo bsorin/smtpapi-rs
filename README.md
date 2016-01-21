@@ -27,7 +27,7 @@ header.add_tos(vec!["email1@domain.com", "email2@domain.com"]);
 header.set_tos(vec!["email1@domain.com", "email2@domain.com"]);
 ```
 
-### [Substitutions](http://sendgrid.com/docs/API_Reference/SMTP_API/substitution_tags.html)
+### [Substitutions](https://sendgrid.com/docs/API_Reference/SMTP_API/substitution_tags.html)
 
 ```rust
 use smtpapi::{Header};
@@ -45,7 +45,7 @@ all_subs.insert("-item2-".to_string(), vec!["rust".to_string(), "power".to_strin
 header.set_substitutions(all_subs);
 ```
 
-### [Section](http://sendgrid.com/docs/API_Reference/SMTP_API/section_tags.html)
+### [Section](https://sendgrid.com/docs/API_Reference/SMTP_API/section_tags.html)
 
 ```rust
 use smtpapi::{Header};
@@ -60,7 +60,7 @@ sections.insert("-item2-".to_string(), "value2".to_string());
 header.set_sections(sections);
 ```
 
-### [Category](http://sendgrid.com/docs/Delivery_Metrics/categories.html)
+### [Category](https://sendgrid.com/docs/Delivery_Metrics/categories.html)
 
 ```rust
 use smtpapi::{Header};
@@ -73,7 +73,7 @@ header.add_categories(vec!["welcome", "new_accounts"]);
 header.set_categories(vec!["welcome", "new_accounts"]);
 ```
 
-### [Unique Arguments](http://sendgrid.com/docs/API_Reference/SMTP_API/unique_arguments.html)
+### [Unique Arguments](https://sendgrid.com/docs/API_Reference/SMTP_API/unique_arguments.html)
 
 ```rust
 use smtpapi::{Header};
@@ -88,7 +88,7 @@ unique_args.insert("-arg2-".to_string(), "value2".to_string());
 header.set_unique_args(unique_args);
 ```
 
-### [Filters](http://sendgrid.com/docs/API_Reference/SMTP_API/apps.html)
+### [Filters](https://sendgrid.com/docs/API_Reference/SMTP_API/apps.html)
 
 ```rust
 use smtpapi::{Header, Filter};
