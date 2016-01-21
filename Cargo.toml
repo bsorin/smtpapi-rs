@@ -8,7 +8,7 @@ authors = ["Sorin Baba <sorin.baba@sendgrid.com>"]
 description = "This crate allows you to quickly and more easily generate [SendGrid](https://sendgrid.com) [X-SMTPAPI](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html) headers."
 
 # These URLs point to more information about the repository
-documentation = "..."
+documentation = "https://github.com/bsorin/smtpapi-rs"
 homepage = "https://github.com/bsorin/smtpapi-rs"
 repository = "https://github.com/bsorin/smtpapi-rs"
 
