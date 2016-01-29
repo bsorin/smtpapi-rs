@@ -1,14 +1,14 @@
 [package]
 name = "smtpapi"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Sorin Baba <sorin.baba@sendgrid.com>"]
 
 # A short blurb about the package. This is not rendered in any format when
 # uploaded to crates.io (aka this is not markdown)
-description = "This crate allows you to quickly and more easily generate [SendGrid](https://sendgrid.com) [X-SMTPAPI](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html) headers."
+description = "This crate allows you to quickly and more easily generate SendGrid X-SMTPAPI headers."
 
 # These URLs point to more information about the repository
-documentation = "https://github.com/bsorin/smtpapi-rs"
+documentation = "https://bsorin.github.io/doc/0.1/smtpapi/"
 homepage = "https://github.com/bsorin/smtpapi-rs"
 repository = "https://github.com/bsorin/smtpapi-rs"
 

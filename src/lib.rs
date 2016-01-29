@@ -6,7 +6,7 @@ use std::fmt;
 use rustc_serialize::json::{ToJson, Json};
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 
-pub static VERSION: &'static str = "0.1.0";
+pub static VERSION: &'static str = "0.1.1";
 
 #[derive(RustcDecodable, RustcEncodable, Debug)]
 pub struct Filter {
@@ -379,9 +379,6 @@ impl Header {
     /// header.add_category("welcome");
     /// ```
     pub fn add_category<S>(&mut self, category: S) -> &mut Header where S: Into<String> {
-        // let x = ASCII.encode(&category.into(), EncoderTrap::Ignore).unwrap();
-        // println!("{:?}", String::from_utf8(x).unwrap());
-        // self.categories.push(std::str::from_utf8(&x).unwrap().to_string());
         self.categories.push(category.into());
         self
     }

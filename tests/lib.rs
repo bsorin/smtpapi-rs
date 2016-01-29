@@ -7,7 +7,7 @@ use std::collections::HashMap;
 
 #[test]
 fn version() {
-    assert_eq!(smtpapi::VERSION, "0.1.0");
+    assert_eq!(smtpapi::VERSION, "0.1.1");
 }
 
 #[test]
