@@ -7,7 +7,7 @@ use std::collections::HashMap;
 
 #[test]
 fn version() {
-    assert_eq!(smtpapi::VERSION, "0.1.1");
+    assert_eq!(smtpapi::VERSION, "0.1.2");
 }
 
 #[test]
@@ -197,6 +197,31 @@ fn header_with_send_each_at_to_json_string() {
     header.set_send_at(x);
 
     header.set_send_each_at(timestamps)
+          .add_send_each_at(z);
+
+    let mut s = "{\"send_each_at\":[".to_string();
+    s.push_str(&format!("{:?}", x));
+    s.push_str(",");
+    s.push_str(&format!("{:?}", y));
+    s.push_str(",");
+    s.push_str(&format!("{:?}", z));
+    s.push_str("]}");
+
+    assert_eq!(s, header.to_json_string());
+}
+
+#[test]
+fn header_with_add_send_each_at_to_json_string() {
+    let x = time::now_utc().to_timespec().sec as i64;
+    let y = x + 50;
+    let z = x + 40;
+
+    let mut header = Header::new();
+
+    header.set_send_at(x);
+
+    header.add_send_each_at(x)
+          .add_send_each_at(y)
           .add_send_each_at(z);
 
     let mut s = "{\"send_each_at\":[".to_string();

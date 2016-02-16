@@ -6,7 +6,7 @@ use std::fmt;
 use rustc_serialize::json::{ToJson, Json};
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 
-pub static VERSION: &'static str = "0.1.1";
+pub static VERSION: &'static str = "0.1.2";
 
 #[derive(RustcDecodable, RustcEncodable, Debug)]
 pub struct Filter {
@@ -561,6 +561,10 @@ impl Header {
     ///       .add_send_each_at(1453213939);
     /// ```
     pub fn add_send_each_at(&mut self, send_at: i64) -> &mut Header {
+        if !self.send_each_at.is_some() {
+            self.send_each_at = Some(Vec::new());
+        }
+
         if let Some(ref mut x) = self.send_each_at {
             x.push(send_at);
         }

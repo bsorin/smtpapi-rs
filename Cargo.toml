@@ -1,6 +1,6 @@
 [package]
 name = "smtpapi"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Sorin Baba <sorin.baba@sendgrid.com>"]
 
 # A short blurb about the package. This is not rendered in any format when
