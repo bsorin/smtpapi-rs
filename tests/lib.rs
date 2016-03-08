@@ -7,7 +7,8 @@ use std::collections::HashMap;
 
 #[test]
 fn version() {
-    assert_eq!(smtpapi::VERSION, "0.1.2");
+    let version = env!("CARGO_PKG_VERSION");
+    assert_eq!(smtpapi::VERSION, version);
 }
 
 #[test]
