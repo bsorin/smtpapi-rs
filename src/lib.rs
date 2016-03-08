@@ -6,9 +6,9 @@ use std::fmt;
 use rustc_serialize::json::{ToJson, Json};
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 
-pub static VERSION: &'static str = "0.1.2";
+pub static VERSION: &'static str = "0.1.3";
 
-#[derive(RustcDecodable, RustcEncodable, Debug)]
+#[derive(RustcDecodable, RustcEncodable, Debug, Clone)]
 pub struct Filter {
     settings: HashMap<String, String>
 }
@@ -74,7 +74,7 @@ impl Filter {
     /// println!("{}", filter.to_string());
     /// ```
     pub fn to_string(&self) -> String {
-        return self.to_json().to_string();
+        self.to_json().to_string()
     }
 }
 
@@ -83,14 +83,14 @@ impl ToJson for Filter {
         let mut d = BTreeMap::new();
 
         if !self.settings.is_empty() {
-            d.insert("settings".to_string(), self.settings.to_json());
+            d.insert("settings".to_owned(), self.settings.to_json());
         }
 
         Json::Object(d)
     }
 }
 
-#[derive(RustcDecodable, RustcEncodable, Debug)]
+#[derive(RustcDecodable, RustcEncodable, Debug, Clone)]
 pub struct Header {
     to: Vec<String>,
     sub: HashMap<String, Vec<String>>,
@@ -121,43 +121,43 @@ impl ToJson for Header {
         let mut d = BTreeMap::new();
 
         if !self.to.is_empty() {
-            d.insert("to".to_string(), self.to.to_json());
+            d.insert("to".to_owned(), self.to.to_json());
         }
 
         if !self.sub.is_empty() {
-            d.insert("sub".to_string(), self.sub.to_json());
+            d.insert("sub".to_owned(), self.sub.to_json());
         }
 
         if !self.section.is_empty() {
-            d.insert("section".to_string(), self.section.to_json());
+            d.insert("section".to_owned(), self.section.to_json());
         }
 
         if !self.categories.is_empty() {
-            d.insert("category".to_string(), self.categories.to_json());
+            d.insert("category".to_owned(), self.categories.to_json());
         }
 
         if !self.unique_args.is_empty() {
-            d.insert("unique_args".to_string(), self.unique_args.to_json());
+            d.insert("unique_args".to_owned(), self.unique_args.to_json());
         }
 
         if !self.filters.is_empty() {
-            d.insert("filters".to_string(), self.filters.to_json());
+            d.insert("filters".to_owned(), self.filters.to_json());
         }
 
         if let Some(ref x) = self.asm_group_id {
-            d.insert("asm_group_id".to_string(), x.to_json());
+            d.insert("asm_group_id".to_owned(), x.to_json());
         }
 
         if let Some(ref x) = self.send_at {
-            d.insert("send_at".to_string(), x.to_json());
+            d.insert("send_at".to_owned(), x.to_json());
         }
 
         if let Some(ref x) = self.send_each_at {
-            d.insert("send_each_at".to_string(), x.to_json());
+            d.insert("send_each_at".to_owned(), x.to_json());
         }
 
         if let Some(ref x) = self.ip_pool {
-            d.insert("ip_pool".to_string(), x.to_json());
+            d.insert("ip_pool".to_owned(), x.to_json());
         }
 
         Json::Object(d)
@@ -212,7 +212,7 @@ impl Header {
     /// println!("{}", header.to_json_string());
     /// ```
     pub fn to_json_string(&self) -> String {
-        return self.to_json().to_string();
+        self.to_json().to_string()
     }
 
     /// It appends a single email to the To header
@@ -302,8 +302,8 @@ impl Header {
     /// ```
     pub fn add_substitutions<S>(&mut self, key: S, subs: Vec<&str>) -> &mut Header where S: Into<String> {
         match self.sub.entry(key.into()) {
-            Vacant(entry) => { entry.insert(subs.iter().map(|&x| x.to_string()).collect::<Vec<String>>()); },
-            Occupied(entry) => { entry.into_mut().extend(subs.iter().map(|&x| x.to_string()).collect::<Vec<String>>().iter().cloned()); },
+            Vacant(entry) => { entry.insert(subs.iter().map(|&x| x.to_owned()).collect::<Vec<String>>()); },
+            Occupied(entry) => { entry.into_mut().extend(subs.iter().map(|&x| x.to_owned()).collect::<Vec<String>>().iter().cloned()); },
         };
 
         self
