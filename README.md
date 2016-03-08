@@ -3,7 +3,7 @@
 This crate allows you to quickly and more easily generate [SendGrid](https://sendgrid.com) [X-SMTPAPI](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html) headers.
 
 [![BuildStatus](https://travis-ci.org/bsorin/smtpapi-rs.svg?branch=master)](https://travis-ci.org/bsorin/smtpapi-rs)
-[![Clippy Linting Result](http://clippy.bashy.io/github/bsorin/smtpapi-rs/master/badge.svg)](http://clippy.bashy.io/github/bsorin/smtpapi-rs/master/log)
+[![Clippy Linting Result](http://clippy.bashy.io/github/bsorin/smtpapi-rs/master/badge.svg?style=flat-square)](http://clippy.bashy.io/github/bsorin/smtpapi-rs/master/log)
 
 ## Examples
 
